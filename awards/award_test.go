@@ -99,3 +99,63 @@ func TestSortByYear(t *testing.T) {
 	expectation := subject.SortByYear()
 	assert.Equal(t, expectation, want)
 }
+
+func TestGroupByYear(t *testing.T) {
+	awards := []Award{{
+		ID:         "0",
+		Award:      3,
+		Nomination: 10,
+		Film:       "Foobar",
+		Year:       2020,
+	},
+		{
+			ID:         "1",
+			Award:      1,
+			Nomination: 3,
+			Film:       "Barfoo",
+			Year:       2020,
+		},
+		{
+			ID:         "2",
+			Award:      10,
+			Nomination: 3,
+			Film:       "not2020",
+			Year:       2018,
+		},
+	}
+	subject := Awards{Awards: awards}
+	want := []Award{awards[0], awards[1]}
+	expectation := subject.GroupByYear(2020)
+	assert.Equal(t, expectation, want)
+}
+
+func TestBestForTheYear(t *testing.T) {
+	awards := []Award{{
+		ID:         "0",
+		Award:      3,
+		Nomination: 10,
+		Film:       "Foobar",
+		Year:       2020,
+	},
+		{
+			ID:         "1",
+			Award:      1,
+			Nomination: 3,
+			Film:       "Barfoo",
+			Year:       2020,
+		},
+		{
+			ID:         "2",
+			Award:      10,
+			Nomination: 3,
+			Film:       "not2020",
+			Year:       2018,
+		},
+	}
+	subject := Awards{Awards: awards}
+	want := awards[0]
+	expectation := subject.BestForTheYear(2020)
+	if expectation != want {
+		t.Fatalf("BestForTheYear expected '%s' got '%s'", want.Film, expectation.Film)
+	}
+}
